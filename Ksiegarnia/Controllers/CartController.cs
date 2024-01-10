@@ -3,18 +3,19 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Ksiegarnia.Data;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ksiegarnia.Controllers
 {
     public class CartController : Controller
     {
         private readonly IBookRepository _bookRepository;
-
+        
         public CartController(IBookRepository bookRepository)
         {
             _bookRepository = bookRepository;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             var cart = HttpContext.Session.GetString("Cart");
@@ -22,7 +23,7 @@ namespace Ksiegarnia.Controllers
             return View(cartModel);
         }
 
-
+        
         public IActionResult AddToCart(int bookId, int quantity)
         {
            
